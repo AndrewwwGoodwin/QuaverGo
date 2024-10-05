@@ -17,7 +17,7 @@ func TestGetUserByID(t *testing.T) {
 }
 
 // attempts to get a user's achievements from their user id
-func TestGetUserAchievements(t *testing.T) {
+func TestGetUserAchievementsByID(t *testing.T) {
 	client := Init()
 	returnedUser, err := client.Users.Achievements(371737)
 	if err != nil {
@@ -27,9 +27,19 @@ func TestGetUserAchievements(t *testing.T) {
 	t.Log(*returnedUser)
 }
 
-func TestGetUserActivity(t *testing.T) {
+func TestGetUserActivityByID(t *testing.T) {
 	client := Init()
 	returnedUser, err := client.Users.Activity(371737)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUser)
+}
+
+func TestGetUserBadgesByID(t *testing.T) {
+	client := Init()
+	returnedUser, err := client.Users.Badges(608)
 	if err != nil {
 		t.Log(err)
 		t.FailNow()
