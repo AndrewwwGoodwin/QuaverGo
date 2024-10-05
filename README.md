@@ -2,6 +2,7 @@
 
 This is an API wrapper for the rhythm game, [Quaver](https://quavergame.com/). 
 
+The project is VERY incomplete and is not suitable for use in anything
 ## Usage
 `go get github.com/AndrewwwGoodwin/QuaverGo`
 
@@ -12,7 +13,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/AndrewwwGoodwin/quaverGo"
+	"github.com/AndrewwwGoodwin/QuaverGo"
 )
 
 func main() {
