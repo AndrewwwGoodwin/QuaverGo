@@ -1,8 +1,8 @@
 package QuaverGo
 
 import (
-	"QuaverGo/RateLimitManager"
 	"errors"
+	"github.com/AndrewwwGoodwin/QuaverGo/RateLimitManager"
 	"net/http"
 	"strconv"
 	"time"
