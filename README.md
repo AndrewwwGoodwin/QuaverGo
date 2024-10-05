@@ -23,7 +23,7 @@ func main() {
 ```
 
 ### Rate Limiting
-as per the [docs](https://wiki.quavergame.com/docs/api-v2), the rate limit is set at 100 req/min
+As per the [docs](https://wiki.quavergame.com/docs/api-v2), the rate limit is set at 100 req/min
 
 This is enforced via errors, and controlled bia the RateLimitManager
 
