@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	quaverClient := quaverGo.Init()
+	quaverClient := QuaverGo.Init()
 	user := quaverClient.Users.ID(371737)
 	fmt.Println(user.Username)
 }
