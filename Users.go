@@ -159,7 +159,7 @@ type Activity struct {
 	MapsetID  int       `json:"mapset_id"`
 }
 
-func (u Users) Badges(id int) (*[]Badges, error) {
+func (u Users) Badges(id int) (*[]Badge, error) {
 	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/badges", u.APIClient.baseURL, u.EndpointExtension, id))
 	if err != nil {
 		return nil, err
@@ -178,11 +178,83 @@ func (u Users) Badges(id int) (*[]Badges, error) {
 }
 
 type BadgesJSON struct {
-	Badges []Badges `json:"badges"`
+	Badges []Badge `json:"badges"`
 }
 
-type Badges struct {
+type Badge struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+}
+
+func (u Users) Mapsets(id int) (*[]Mapset, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/mapsets", u.APIClient.baseURL, u.EndpointExtension, id))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedMapsets MapsetJSON
+	err = json.Unmarshal(dataStream, &returnedMapsets)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedMapsets.Mapsets, nil
+}
+
+type MapsetJSON struct {
+	Mapsets []Mapset `json:"mapsets"`
+}
+
+type Mapset struct {
+	Id              int       `json:"id"`
+	PackageMd5      string    `json:"package_md5"`
+	CreatorId       int       `json:"creator_id"`
+	CreatorUsername string    `json:"creator_username"`
+	Artist          string    `json:"artist"`
+	Title           string    `json:"title"`
+	Source          string    `json:"source"`
+	Tags            string    `json:"tags"`
+	Description     string    `json:"description"`
+	DateSubmitted   time.Time `json:"date_submitted"`
+	DateLastUpdated time.Time `json:"date_last_updated"`
+	IsVisible       bool      `json:"is_visible"`
+	IsExplicit      bool      `json:"is_explicit"`
+	Maps            []Map     `json:"maps"`
+}
+
+type Map struct {
+	Id                   int     `json:"id"`
+	MapsetId             int     `json:"mapset_id"`
+	Md5                  string  `json:"md5"`
+	AlternativeMd5       string  `json:"alternative_md5"`
+	CreatorId            int     `json:"creator_id"`
+	CreatorUsername      string  `json:"creator_username"`
+	GameMode             int     `json:"game_mode"`
+	RankedStatus         int     `json:"ranked_status"`
+	Artist               string  `json:"artist"`
+	Title                string  `json:"title"`
+	Source               string  `json:"source"`
+	Tags                 string  `json:"tags"`
+	Description          string  `json:"description"`
+	DifficultyName       string  `json:"difficulty_name"`
+	Length               int     `json:"length"`
+	Bpm                  int     `json:"bpm"`
+	DifficultyRating     float64 `json:"difficulty_rating"`
+	CountHitobjectNormal int     `json:"count_hitobject_normal"`
+	CountHitobjectLong   int     `json:"count_hitobject_long"`
+	LongNotePercentage   float64 `json:"long_note_percentage"`
+	MaxCombo             int     `json:"max_combo"`
+	PlayCount            int     `json:"play_count"`
+	FailCount            int     `json:"fail_count"`
+	PlayAttempts         int     `json:"play_attempts"`
+	ModsPending          int     `json:"mods_pending"`
+	ModsAccepted         int     `json:"mods_accepted"`
+	ModsDenied           int     `json:"mods_denied"`
+	ModsIgnored          int     `json:"mods_ignored"`
+	OnlineOffset         int     `json:"online_offset"`
+	IsClanRanked         bool    `json:"is_clan_ranked"`
 }

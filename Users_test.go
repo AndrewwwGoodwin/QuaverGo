@@ -29,20 +29,30 @@ func TestGetUserAchievementsByID(t *testing.T) {
 
 func TestGetUserActivityByID(t *testing.T) {
 	client := Init()
-	returnedUser, err := client.Users.Activity(371737)
+	returnedUserActivity, err := client.Users.Activity(371737)
 	if err != nil {
 		t.Log(err)
 		t.FailNow()
 	}
-	t.Log(*returnedUser)
+	t.Log(*returnedUserActivity)
 }
 
 func TestGetUserBadgesByID(t *testing.T) {
 	client := Init()
-	returnedUser, err := client.Users.Badges(608)
+	returnedBadges, err := client.Users.Badges(608)
 	if err != nil {
 		t.Log(err)
 		t.FailNow()
 	}
-	t.Log(*returnedUser)
+	t.Log(*returnedBadges)
+}
+
+func TestGetUserMapsetsByID(t *testing.T) {
+	client := Init()
+	returnedUserMapsets, err := client.Users.Mapsets(608)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUserMapsets)
 }
