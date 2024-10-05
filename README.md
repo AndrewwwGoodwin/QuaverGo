@@ -1,9 +1,9 @@
 # QuaverGo
 
-This is an api wrapper for the rhythm game Quaver. 
+This is an API wrapper for the rhythm game, [Quaver](https://quavergame.com/). 
 
 ## Usage
-`go get github.com/AndrewwwGoodwin/quaverGo`
+`go get github.com/AndrewwwGoodwin/QuaverGo`
 
 Initialize a client, and get some info
 
@@ -23,7 +23,9 @@ func main() {
 ```
 
 ### Rate Limiting
-As per the [docs](https://wiki.quavergame.com/docs/api-v2), the rate limit is set at 100 req/min
+As per the [docs](https://wiki.quavergame.com/docs/api-v2), the rate limit is currently set at 100 req/min
 
-This is enforced via errors, and controlled bia the RateLimitManager
+This is enforced via errors, and controlled via the RateLimitManager
 
+### Aside
+Better docs coming soon! The project is far from done!
