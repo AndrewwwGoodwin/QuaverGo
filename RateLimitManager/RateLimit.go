@@ -21,35 +21,19 @@ func (rm *RateLimitManager) Request() error {
 	rm.mutex.Lock()
 	defer rm.mutex.Unlock()
 
-	if rm.CanRequest() {
-		rm.requestCounter++
-		return nil
-	} else {
-		return errors.New("rate limit exceeded")
-	}
-}
-
-func (rm *RateLimitManager) Reset() {
-	rm.mutex.Lock()
-	defer rm.mutex.Unlock()
-	rm.requestCounter = 0
-	rm.lastRequest = time.Now()
-}
-
-func (rm *RateLimitManager) CanRequest() bool {
-	rm.mutex.Lock()
-	defer rm.mutex.Unlock()
-
-	currentTime := time.Now()
-
-	if currentTime.Minute() != rm.lastRequest.Minute() || currentTime.Hour() != rm.lastRequest.Hour() {
+	// Reset if a minute has passed
+	if time.Since(rm.lastRequest) >= time.Minute {
 		rm.Reset()
 	}
 
-	// if requests is under limit, true
 	if rm.requestCounter < rm.requestLimit {
-		return true
+		rm.requestCounter++
+		return nil
 	}
+	return errors.New("rate limit exceeded")
+}
 
-	return false
+func (rm *RateLimitManager) Reset() {
+	rm.requestCounter = 0
+	rm.lastRequest = time.Now()
 }

@@ -1,17 +1,6 @@
 package QuaverGo
 
 import (
-	"QuaverGo/Endpoints/Clans"
-	"QuaverGo/Endpoints/Downloads"
-	"QuaverGo/Endpoints/Leaderboards"
-	"QuaverGo/Endpoints/Maps"
-	"QuaverGo/Endpoints/Mapsets"
-	"QuaverGo/Endpoints/Multiplayer"
-	"QuaverGo/Endpoints/Playlists"
-	"QuaverGo/Endpoints/RankingQueue"
-	"QuaverGo/Endpoints/Scores"
-	"QuaverGo/Endpoints/ServerStats"
-	"QuaverGo/Endpoints/Users"
 	"QuaverGo/RateLimitManager"
 	"errors"
 	"net/http"
@@ -24,17 +13,19 @@ type Client struct {
 	rateLimitManager *RateLimitManager.RateLimitManager
 	baseURL          string
 	//endpoint subdivision
-	Clans        *Clans.Clans
-	Download     *Downloads.Downloads
-	Leaderboards *Leaderboards.Leaderboards
-	Maps         *Maps.Maps
-	Mapsets      *Mapsets.Mapsets
-	Multiplayer  *Multiplayer.Multiplayer
-	Playlists    *Playlists.Playlists
-	RankingQueue *RankingQueue.RankingQueue
-	ServerStats  *ServerStats.ServerStats
-	Scores       *Scores.Scores
-	Users        *Users.Users
+	/*
+		Clans        *Clans.Clans
+		Download     *Downloads.Downloads
+		Leaderboards *Leaderboards.Leaderboards
+		Maps         *Maps.Maps
+		Mapsets      *Mapsets.Mapsets
+		Multiplayer  *Multiplayer.Multiplayer
+		Playlists    *Playlists.Playlists
+		RankingQueue *RankingQueue.RankingQueue
+		ServerStats  *ServerStats.ServerStats
+		Scores       *Scores.Scores
+	*/
+	Users *Users
 }
 
 func Init() *Client {
@@ -44,17 +35,19 @@ func Init() *Client {
 	rateLimiter := RateLimitManager.Init(100)
 	initClient := Client{httpClient: httpClient, rateLimitManager: rateLimiter}
 	initClient.baseURL = "https://api.quavergame.com/v2"
-	initClient.Clans = Clans.Init(&initClient)
-	initClient.Download = Downloads.Init(&initClient)
-	initClient.Leaderboards = Leaderboards.Init(&initClient)
-	initClient.Maps = Maps.Init(&initClient)
-	initClient.Mapsets = Mapsets.Init(&initClient)
-	initClient.Multiplayer = Multiplayer.Init(&initClient)
-	initClient.Playlists = Playlists.Init(&initClient)
-	initClient.RankingQueue = RankingQueue.Init(&initClient)
-	initClient.ServerStats = ServerStats.Init(&initClient)
-	initClient.Scores = Scores.Init(&initClient)
-	initClient.Users = Users.Init(&initClient)
+	/*
+		initClient.Clans = Clans.Init(&initClient)
+		initClient.Download = Downloads.Init(&initClient)
+		initClient.Leaderboards = Leaderboards.Init(&initClient)
+		initClient.Maps = Maps.Init(&initClient)
+		initClient.Mapsets = Mapsets.Init(&initClient)
+		initClient.Multiplayer = Multiplayer.Init(&initClient)
+		initClient.Playlists = Playlists.Init(&initClient)
+		initClient.RankingQueue = RankingQueue.Init(&initClient)
+		initClient.ServerStats = ServerStats.Init(&initClient)
+		initClient.Scores = Scores.Init(&initClient)
+	*/
+	initClient.Users = initUsers(&initClient)
 
 	return &initClient
 }
