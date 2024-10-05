@@ -36,6 +36,70 @@ func (u Users) ID(id int) (*JsonUser, error) {
 	return &UserData.User, nil
 }
 
+func (u Users) Achievements(id int) (*[]Achievement, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/achievements", u.APIClient.baseURL, u.EndpointExtension, id))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var ReturnedAchievements AchievementJson
+	err = json.Unmarshal(dataStream, &ReturnedAchievements)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ReturnedAchievements.Achievements, nil
+}
+
+func (u Users) Activity(id int) (*[]Activity, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/activity", u.APIClient.baseURL, u.EndpointExtension, id))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var ReturnedActivities ActivityJSON
+	err = json.Unmarshal(dataStream, &ReturnedActivities)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ReturnedActivities.Activities, nil
+}
+
+type ActivityJSON struct {
+	Activities []Activity `json:"activities"`
+}
+
+type Activity struct {
+	ID        int       `json:"id"`
+	UserID    int       `json:"user_id"`
+	Type      int       `json:"type"`
+	Timestamp time.Time `json:"timestamp"`
+	Value     string    `json:"value"`
+	MapsetID  int       `json:"mapset_id"`
+}
+
+type AchievementJson struct {
+	Achievements []Achievement `json:"achievements"`
+}
+
+type Achievement struct {
+	ID           int    `json:"id"`
+	Difficulty   string `json:"difficulty"`
+	SteamAPIName string `json:"steam_api_name"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	IsUnlocked   bool   `json:"is_unlocked"`
+}
+
 type QuaverUser struct {
 	User JsonUser `json:"user"`
 }

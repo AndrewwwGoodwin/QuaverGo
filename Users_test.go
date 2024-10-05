@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+// attempts to get a user's profile from their user id
 func TestGetUserByID(t *testing.T) {
 	client := Init()
 	returnedUser, err := client.Users.ID(371737)
@@ -13,4 +14,25 @@ func TestGetUserByID(t *testing.T) {
 	}
 	t.Log(*returnedUser)
 	//fmt.Println(id)
+}
+
+// attempts to get a user's achievements from their user id
+func TestGetUserAchievements(t *testing.T) {
+	client := Init()
+	returnedUser, err := client.Users.Achievements(371737)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUser)
+}
+
+func TestGetUserActivity(t *testing.T) {
+	client := Init()
+	returnedUser, err := client.Users.Activity(371737)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUser)
 }
