@@ -180,6 +180,7 @@ func (u Users) Badges(id int) (*[]Badges, error) {
 type BadgesJSON struct {
 	Badges []Badges `json:"badges"`
 }
+
 type Badges struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
