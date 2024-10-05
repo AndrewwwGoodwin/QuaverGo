@@ -1,12 +1,14 @@
 package Mapsets
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Mapsets struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Mapsets {
+func Init(apiClient *QuaverGo.Client) *Mapsets {
 	return &Mapsets{APIClient: apiClient, EndpointExtension: "/mapset/"}
 }

@@ -1,20 +1,20 @@
-package quaverGo
+package QuaverGo
 
 import (
+	"QuaverGo/Endpoints/Clans"
+	"QuaverGo/Endpoints/Downloads"
+	"QuaverGo/Endpoints/Leaderboards"
+	"QuaverGo/Endpoints/Maps"
+	"QuaverGo/Endpoints/Mapsets"
+	"QuaverGo/Endpoints/Multiplayer"
+	"QuaverGo/Endpoints/Playlists"
+	"QuaverGo/Endpoints/RankingQueue"
+	"QuaverGo/Endpoints/Scores"
+	"QuaverGo/Endpoints/ServerStats"
+	"QuaverGo/Endpoints/Users"
+	"QuaverGo/RateLimitManager"
 	"errors"
 	"net/http"
-	"quaverGo/Endpoints/Clans"
-	"quaverGo/Endpoints/Downloads"
-	"quaverGo/Endpoints/Leaderboards"
-	"quaverGo/Endpoints/Maps"
-	"quaverGo/Endpoints/Mapsets"
-	"quaverGo/Endpoints/Multiplayer"
-	"quaverGo/Endpoints/Playlists"
-	"quaverGo/Endpoints/RankingQueue"
-	"quaverGo/Endpoints/Scores"
-	"quaverGo/Endpoints/ServerStats"
-	"quaverGo/Endpoints/Users"
-	"quaverGo/RateLimitManager"
 	"strconv"
 	"time"
 )

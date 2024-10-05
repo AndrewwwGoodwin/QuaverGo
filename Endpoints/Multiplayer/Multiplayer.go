@@ -1,12 +1,14 @@
 package Multiplayer
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Multiplayer struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Multiplayer {
+func Init(apiClient *QuaverGo.Client) *Multiplayer {
 	return &Multiplayer{APIClient: apiClient, EndpointExtension: "/multiplayer/"}
 }

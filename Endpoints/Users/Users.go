@@ -1,12 +1,14 @@
 package Users
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Users struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Users {
+func Init(apiClient *QuaverGo.Client) *Users {
 	return &Users{APIClient: apiClient, EndpointExtension: "/user/"}
 }

@@ -1,12 +1,14 @@
 package ServerStats
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type ServerStats struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *ServerStats {
+func Init(apiClient *QuaverGo.Client) *ServerStats {
 	return &ServerStats{APIClient: apiClient, EndpointExtension: "/server/stats/"}
 }

@@ -1,12 +1,14 @@
 package RankingQueue
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type RankingQueue struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *RankingQueue {
+func Init(apiClient *QuaverGo.Client) *RankingQueue {
 	return &RankingQueue{APIClient: apiClient, EndpointExtension: "/ranking/"}
 }

@@ -1,12 +1,14 @@
 package Scores
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Scores struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Scores {
+func Init(apiClient *QuaverGo.Client) *Scores {
 	return &Scores{APIClient: apiClient, EndpointExtension: "/scores/"}
 }

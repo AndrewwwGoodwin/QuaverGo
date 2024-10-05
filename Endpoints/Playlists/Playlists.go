@@ -1,12 +1,14 @@
 package Playlists
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Playlists struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Playlists {
+func Init(apiClient *QuaverGo.Client) *Playlists {
 	return &Playlists{APIClient: apiClient, EndpointExtension: "/playlists/"}
 }

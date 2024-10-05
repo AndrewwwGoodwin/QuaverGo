@@ -1,12 +1,14 @@
 package Clans
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Clans struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Clans {
+func Init(apiClient *QuaverGo.Client) *Clans {
 	return &Clans{APIClient: apiClient, EndpointExtension: "/clan/"}
 }

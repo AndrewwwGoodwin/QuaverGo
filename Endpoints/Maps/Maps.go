@@ -1,12 +1,14 @@
 package Maps
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Maps struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Maps {
+func Init(apiClient *QuaverGo.Client) *Maps {
 	return &Maps{APIClient: apiClient, EndpointExtension: "/map/"}
 }

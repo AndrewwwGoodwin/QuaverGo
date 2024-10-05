@@ -1,12 +1,14 @@
 package Leaderboards
 
-import "quaverGo"
+import (
+	"QuaverGo"
+)
 
 type Leaderboards struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Leaderboards {
+func Init(apiClient *QuaverGo.Client) *Leaderboards {
 	return &Leaderboards{APIClient: apiClient, EndpointExtension: "/leaderboard/"}
 }

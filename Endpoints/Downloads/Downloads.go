@@ -1,12 +1,12 @@
 package Downloads
 
-import "quaverGo"
+import "QuaverGo"
 
 type Downloads struct {
-	APIClient         *quaverGo.Client
+	APIClient         *QuaverGo.Client
 	EndpointExtension string
 }
 
-func Init(apiClient *quaverGo.Client) *Downloads {
+func Init(apiClient *QuaverGo.Client) *Downloads {
 	return &Downloads{APIClient: apiClient, EndpointExtension: "/download/"}
 }
