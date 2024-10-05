@@ -242,7 +242,7 @@ type Map struct {
 	Description          string  `json:"description"`
 	DifficultyName       string  `json:"difficulty_name"`
 	Length               int     `json:"length"`
-	Bpm                  int     `json:"bpm"`
+	Bpm                  float64 `json:"bpm"`
 	DifficultyRating     float64 `json:"difficulty_rating"`
 	CountHitobjectNormal int     `json:"count_hitobject_normal"`
 	CountHitobjectLong   int     `json:"count_hitobject_long"`
@@ -257,4 +257,140 @@ type Map struct {
 	ModsIgnored          int     `json:"mods_ignored"`
 	OnlineOffset         int     `json:"online_offset"`
 	IsClanRanked         bool    `json:"is_clan_ranked"`
+}
+
+func (u Users) Playlists(id int) (*[]Playlists, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/playlists", u.APIClient.baseURL, u.EndpointExtension, id))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedPlaylists PlaylistsJson
+	err = json.Unmarshal(dataStream, &returnedPlaylists)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedPlaylists.Playlists, nil
+}
+
+type PlaylistsJson struct {
+	Playlists []Playlists `json:"playlists"`
+}
+
+type Playlists struct {
+	ID              int       `json:"id"`
+	Name            string    `json:"name"`
+	Description     string    `json:"description"`
+	MapCount        int       `json:"map_count"`
+	Timestamp       time.Time `json:"timestamp"`
+	TimeLastUpdated time.Time `json:"time_last_updated"`
+}
+
+// ScoresBest valid modes are 1 (4k) and 2 (7k)
+func (u Users) ScoresBest(id int, mode int) (*[]Scores, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/best", u.APIClient.baseURL, u.EndpointExtension, id, mode))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedScores ScoresJSON
+	err = json.Unmarshal(dataStream, &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedScores.Scores, nil
+}
+
+func (u Users) ScoresRecent(id int, mode int) (*[]Scores, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/recent", u.APIClient.baseURL, u.EndpointExtension, id, mode))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedScores ScoresJSON
+	err = json.Unmarshal(dataStream, &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedScores.Scores, nil
+}
+
+func (u Users) ScoresFirstPlace(id int, mode int) (*[]Scores, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/firstplace", u.APIClient.baseURL, u.EndpointExtension, id, mode))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedScores ScoresJSON
+	err = json.Unmarshal(dataStream, &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedScores.Scores, nil
+}
+
+// ScoresByGrade valid grades are X, SS, S, A, B, C, D
+// valid modes are (1, 4k), or (2, 7k)
+func (u Users) ScoresByGrade(id int, mode int, grade string) (*[]Scores, error) {
+	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/grades/%s", u.APIClient.baseURL, u.EndpointExtension, id, mode, grade))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedScores ScoresJSON
+	err = json.Unmarshal(dataStream, &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedScores.Scores, nil
+}
+
+type ScoresJSON struct {
+	Scores []Scores `json:"scores"`
+}
+type Scores struct {
+	Id                int         `json:"id"`
+	UserId            int         `json:"user_id"`
+	MapMd5            string      `json:"map_md5"`
+	ReplayMd5         string      `json:"replay_md5"`
+	Timestamp         time.Time   `json:"timestamp"`
+	IsPersonalBest    bool        `json:"is_personal_best"`
+	PerformanceRating float64     `json:"performance_rating"`
+	Modifiers         int         `json:"modifiers"`
+	Failed            bool        `json:"failed"`
+	TotalScore        int         `json:"total_score"`
+	Accuracy          float64     `json:"accuracy"`
+	MaxCombo          int         `json:"max_combo"`
+	CountMarvelous    int         `json:"count_marvelous"`
+	CountPerfect      int         `json:"count_perfect"`
+	CountGreat        int         `json:"count_great"`
+	CountGood         int         `json:"count_good"`
+	CountOkay         int         `json:"count_okay"`
+	CountMiss         int         `json:"count_miss"`
+	Grade             string      `json:"grade"`
+	ScrollSpeed       int         `json:"scroll_speed"`
+	IsDonatorScore    bool        `json:"is_donator_score"`
+	TournamentGameId  interface{} `json:"tournament_game_id"`
+	ClanId            interface{} `json:"clan_id"`
+	Map               Map         `json:"map"`
 }

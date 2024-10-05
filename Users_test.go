@@ -56,3 +56,53 @@ func TestGetUserMapsetsByID(t *testing.T) {
 	}
 	t.Log(*returnedUserMapsets)
 }
+
+func TestGetUserPlaylistsByID(t *testing.T) {
+	client := Init()
+	returnedUserPlaylists, err := client.Users.Playlists(398945)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUserPlaylists)
+}
+
+func TestGetUserScoresBestByID(t *testing.T) {
+	client := Init()
+	returnedUserScores, err := client.Users.ScoresBest(371737, 1)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUserScores)
+}
+
+func TestGetUserScoresRecentByID(t *testing.T) {
+	client := Init()
+	returnedUserScores, err := client.Users.ScoresRecent(371737, 1)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUserScores)
+}
+
+func TestGetUserScoresFirstPlaceByID(t *testing.T) {
+	client := Init()
+	returnedUserScores, err := client.Users.ScoresFirstPlace(371737, 1)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUserScores)
+}
+
+func TestGetUserScoresByGradeByID(t *testing.T) {
+	client := Init()
+	returnedUserScores, err := client.Users.ScoresByGrade(371737, 1, "s")
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(*returnedUserScores)
+}
