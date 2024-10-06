@@ -45,8 +45,8 @@ func Init() *Client {
 		initClient.Playlists = Playlists.Init(&initClient)
 		initClient.RankingQueue = RankingQueue.Init(&initClient)
 		initClient.ServerStats = ServerStats.Init(&initClient)
-		initClient.ScoresData = ScoresData.Init(&initClient)
 	*/
+	initClient.Scores = initScores(&initClient)
 	initClient.Users = initUsers(&initClient)
 
 	return &initClient
