@@ -1,5 +1,12 @@
 package QuaverGo
 
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"time"
+)
+
 type Scores struct {
 	APIClient         *Client
 	EndpointExtension string
@@ -7,4 +14,80 @@ type Scores struct {
 
 func initScores(apiClient *Client) *Scores {
 	return &Scores{APIClient: apiClient, EndpointExtension: "/scores/"}
+}
+
+// GetMapLeaderboardByMD5 gets the top 50 scores global leaderboard scores from a map's given md5 id
+func (s Scores) GetMapLeaderboardByMD5(mapMD5 string) (*[50]MapScore, error) {
+	fmt.Println(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5))
+	responseData, err := s.APIClient.AttemptRequest(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5))
+	if err != nil {
+		return nil, err
+	}
+	defer responseData.Body.Close()
+	dataStream, err := io.ReadAll(responseData.Body)
+	if err != nil {
+		return nil, err
+	}
+	var returnedScores MapScoreJson
+	err = json.Unmarshal(dataStream, &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return &returnedScores.Scores, nil
+}
+
+type MapScoreJson struct {
+	Scores [50]MapScore `json:"scores"`
+}
+
+type MapScore struct {
+	Id                int         `json:"id"`
+	UserId            int         `json:"user_id"`
+	MapMd5            string      `json:"map_md5"`
+	ReplayMd5         string      `json:"replay_md5"`
+	Mode              int         `json:"mode"`
+	Timestamp         time.Time   `json:"timestamp"`
+	IsPersonalBest    bool        `json:"is_personal_best"`
+	PerformanceRating float64     `json:"performance_rating"`
+	Modifiers         int64       `json:"modifiers"`
+	Failed            bool        `json:"failed"`
+	TotalScore        int         `json:"total_score"`
+	Accuracy          float64     `json:"accuracy"`
+	MaxCombo          int         `json:"max_combo"`
+	CountMarvelous    int         `json:"count_marvelous"`
+	CountPerfect      int         `json:"count_perfect"`
+	CountGreat        int         `json:"count_great"`
+	CountGood         int         `json:"count_good"`
+	CountOkay         int         `json:"count_okay"`
+	CountMiss         int         `json:"count_miss"`
+	Grade             string      `json:"grade"`
+	ScrollSpeed       int         `json:"scroll_speed"`
+	IsDonatorScore    bool        `json:"is_donator_score"`
+	TournamentGameId  int         `json:"tournament_game_id"`
+	ClanId            interface{} `json:"clan_id"`
+	User              UserCompact `json:"user"`
+}
+
+// UserCompact is literally just JsonUser without the 4/7k stats
+type UserCompact struct {
+	Id              int         `json:"id"`
+	SteamId         string      `json:"steam_id"`
+	Username        string      `json:"username"`
+	TimeRegistered  time.Time   `json:"time_registered"`
+	Allowed         bool        `json:"allowed"`
+	Privileges      int         `json:"privileges"`
+	Usergroups      int         `json:"usergroups"`
+	MuteEndTime     time.Time   `json:"mute_end_time"`
+	LatestActivity  time.Time   `json:"latest_activity"`
+	Country         string      `json:"country"`
+	AvatarUrl       string      `json:"avatar_url"`
+	Twitter         interface{} `json:"twitter"`
+	Title           string      `json:"title"`
+	TwitchUsername  interface{} `json:"twitch_username"`
+	DonatorEndTime  time.Time   `json:"donator_end_time"`
+	DiscordId       string      `json:"discord_id"`
+	MiscInformation interface{} `json:"misc_information"`
+	ClanId          interface{} `json:"clan_id"`
+	ClanLeaveTime   time.Time   `json:"clan_leave_time"`
+	ClientStatus    interface{} `json:"client_status"`
 }
