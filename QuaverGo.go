@@ -1,8 +1,10 @@
 package QuaverGo
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/AndrewwwGoodwin/QuaverGo/RateLimitManager"
+	"io"
 	"net/http"
 	"strconv"
 	"time"
@@ -71,4 +73,19 @@ func (c Client) AttemptRequest(URL string) (*http.Response, error) {
 	}
 
 	return response, nil
+}
+
+// fetchData takes in a target url, and the pointer to unMarshal into.
+// only returns an error, as the data is unmarshalled into the pointer
+func fetchData(endpoint string, target interface{}) error {
+	response, err := http.Get(endpoint)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+	data, err := io.ReadAll(response.Body)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(data, target)
 }

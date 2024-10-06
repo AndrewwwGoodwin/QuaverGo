@@ -1,9 +1,7 @@
 package QuaverGo
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"time"
 )
 
@@ -18,18 +16,8 @@ func initScores(apiClient *Client) *Scores {
 
 // GetMapLeaderboardByMD5 gets the top 50 scores global leaderboard scores from a map's given md5 id
 func (s Scores) GetMapLeaderboardByMD5(mapMD5 string) (*[50]MapScore, error) {
-	fmt.Println(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5))
-	responseData, err := s.APIClient.AttemptRequest(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedScores MapScoreJson
-	err = json.Unmarshal(dataStream, &returnedScores)
+	err := fetchData(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
