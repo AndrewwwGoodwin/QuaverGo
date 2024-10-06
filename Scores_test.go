@@ -54,10 +54,21 @@ func TestScores_GetUserBestAllScoreboards(t *testing.T) {
 	t.Log(returnedScore)
 }
 
-// might not work, not sure. TODO
+// might not work, not sure. TODO figure out mod/rate id so I can actually test it
 func TestScores_GetBeatmapUserBestScoreMods(t *testing.T) {
 	client := Init()
 	returnedScore, err := client.Scores.GetBeatmapUserBestScoreMods("0ec514e829ae12273cf166f65ad53d25", 371737, 0)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(returnedScore)
+}
+
+// might not work, not sure. TODO figure out mod/rate id so I can actually test it
+func TestScores_GetBeatmapUserBestScoreRate(t *testing.T) {
+	client := Init()
+	returnedScore, err := client.Scores.GetBeatmapUserBestScoreRate("0ec514e829ae12273cf166f65ad53d25", 371737, 0)
 	if err != nil {
 		t.Log(err)
 		t.FailNow()

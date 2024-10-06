@@ -124,10 +124,20 @@ func (s Scores) GetUserBestAllScoreboards(mapMD5 string, userId int) (MapScore, 
 	return returnedScore, nil
 }
 
-// GetBeatmapUserBestScoreMods Returns  a user’s personal best score on a map with given mods.
+// GetBeatmapUserBestScoreMods Returns a user’s personal best score on a map with given mods. TODO test if functional
 func (s Scores) GetBeatmapUserBestScoreMods(mapMD5 string, userId int, mods int) (MapScore, error) {
 	var returnedScore MapScore
 	err := fetchData(fmt.Sprintf("%s%s%s/%d/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
+	if err != nil {
+		return MapScore{}, err
+	}
+	return returnedScore, nil
+}
+
+// GetBeatmapUserBestScoreRate Returns a user’s personal best score on a map with given rate modifiers. TODO test if functional
+func (s Scores) GetBeatmapUserBestScoreRate(mapMD5 string, userId int, mods int) (MapScore, error) {
+	var returnedScore MapScore
+	err := fetchData(fmt.Sprintf("%s%s%s/%d/rate/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
 	if err != nil {
 		return MapScore{}, err
 	}
