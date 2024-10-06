@@ -23,9 +23,9 @@ type Client struct {
 		Playlists    *Playlists.Playlists
 		RankingQueue *RankingQueue.RankingQueue
 		ServerStats  *ServerStats.ServerStats
-		Scores       *Scores.Scores
 	*/
-	Users *Users
+	Scores *Scores
+	Users  *Users
 }
 
 func Init() *Client {
@@ -45,7 +45,7 @@ func Init() *Client {
 		initClient.Playlists = Playlists.Init(&initClient)
 		initClient.RankingQueue = RankingQueue.Init(&initClient)
 		initClient.ServerStats = ServerStats.Init(&initClient)
-		initClient.Scores = Scores.Init(&initClient)
+		initClient.ScoresData = ScoresData.Init(&initClient)
 	*/
 	initClient.Users = initUsers(&initClient)
 
