@@ -14,21 +14,21 @@ func initScores(apiClient *Client) *Scores {
 	return &Scores{APIClient: apiClient, EndpointExtension: "/scores/"}
 }
 
-// GetMapLeaderboardByMD5 gets the top 50 scores global leaderboard scores from a map's given md5 id
-func (s Scores) GetMapLeaderboardByMD5(mapMD5 string) (*[50]MapScore, error) {
+// GetMapLeaderboard gets the top 50 scores global leaderboard scores from a map's given md5 id
+func (s Scores) GetMapLeaderboard(mapMD5 string) ([]MapScores, error) {
 	var returnedScores MapScoreJson
 	err := fetchData(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
-	return &returnedScores.Scores, nil
+	return returnedScores.Scores, nil
 }
 
 type MapScoreJson struct {
-	Scores [50]MapScore `json:"scores"`
+	Scores []MapScores `json:"scores"`
 }
 
-type MapScore struct {
+type MapScores struct {
 	Id                int         `json:"id"`
 	UserId            int         `json:"user_id"`
 	MapMd5            string      `json:"map_md5"`
@@ -78,4 +78,37 @@ type UserCompact struct {
 	ClanId          interface{} `json:"clan_id"`
 	ClanLeaveTime   time.Time   `json:"clan_leave_time"`
 	ClientStatus    interface{} `json:"client_status"`
+}
+
+// GetMapModLeaderboard takes in a map MD5 and a mod id, and returns the leaderboard for the given mod.
+func (s Scores) GetMapModLeaderboard(mapMD5 string, mods int) ([]MapScores, error) {
+	var returnedScores MapScoreJson
+	err := fetchData(fmt.Sprintf("%s%s%s/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, mods), &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return returnedScores.Scores, nil
+}
+
+// GetMapRateLeaderboard takes in a mapMD5 and a rate mod id, and returns the leaderboard for the given rate.
+func (s Scores) GetMapRateLeaderboard(mapMD5 string, mods int) ([]MapScores, error) {
+	var returnedScores MapScoreJson
+	err := fetchData(fmt.Sprintf("%s%s%s/rate/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, mods), &returnedScores)
+	if err != nil {
+		return nil, err
+	}
+	return returnedScores.Scores, nil
+}
+
+func (s Scores) GetUserBestScore(mapMD5 string, userId int) (MapScore, error) {
+	var returnedScore MapScore
+	err := fetchData(fmt.Sprintf("%s%s%s/%d/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
+	if err != nil {
+		return MapScore{}, err
+	}
+	return returnedScore, nil
+}
+
+type MapScore struct {
+	Score MapScores `json:"score"`
 }
