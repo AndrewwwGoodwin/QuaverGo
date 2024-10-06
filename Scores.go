@@ -100,6 +100,7 @@ func (s Scores) GetMapRateLeaderboard(mapMD5 string, mods int) ([]MapScores, err
 	return returnedScores.Scores, nil
 }
 
+// GetUserBestScore returns a user's single best global score on a provided beatmap. Takes in mapMD5 and userID
 func (s Scores) GetUserBestScore(mapMD5 string, userId int) (MapScore, error) {
 	var returnedScore MapScore
 	err := fetchData(fmt.Sprintf("%s%s%s/%d/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
