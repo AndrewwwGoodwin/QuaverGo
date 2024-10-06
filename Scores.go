@@ -123,3 +123,13 @@ func (s Scores) GetUserBestAllScoreboards(mapMD5 string, userId int) (MapScore, 
 	}
 	return returnedScore, nil
 }
+
+// GetBeatmapUserBestScoreMods Returns  a user’s personal best score on a map with given mods.
+func (s Scores) GetBeatmapUserBestScoreMods(mapMD5 string, userId int, mods int) (MapScore, error) {
+	var returnedScore MapScore
+	err := fetchData(fmt.Sprintf("%s%s%s/%d/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
+	if err != nil {
+		return MapScore{}, err
+	}
+	return returnedScore, nil
+}
