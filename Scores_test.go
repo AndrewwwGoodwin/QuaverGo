@@ -34,9 +34,19 @@ func TestScores_GetMapRateLeaderboard(t *testing.T) {
 	t.Log(returnedScores[0])
 }
 
-func TestScores_GetUserBestScore(t *testing.T) {
+func TestScores_GetBeatmapUserBestScore(t *testing.T) {
 	client := Init()
-	returnedScore, err := client.Scores.GetUserBestScore("0ec514e829ae12273cf166f65ad53d25", 371737)
+	returnedScore, err := client.Scores.GetBeatmapUserBestScore("0ec514e829ae12273cf166f65ad53d25", 371737)
+	if err != nil {
+		t.Log(err)
+		t.FailNow()
+	}
+	t.Log(returnedScore)
+}
+
+func TestScores_GetUserBestAllScoreboards(t *testing.T) {
+	client := Init()
+	returnedScore, err := client.Scores.GetUserBestAllScoreboards("0ec514e829ae12273cf166f65ad53d25", 371737)
 	if err != nil {
 		t.Log(err)
 		t.FailNow()

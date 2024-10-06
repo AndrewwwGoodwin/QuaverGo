@@ -100,8 +100,8 @@ func (s Scores) GetMapRateLeaderboard(mapMD5 string, mods int) ([]MapScores, err
 	return returnedScores.Scores, nil
 }
 
-// GetUserBestScore returns a user's single best global score on a provided beatmap. Takes in mapMD5 and userID
-func (s Scores) GetUserBestScore(mapMD5 string, userId int) (MapScore, error) {
+// GetBeatmapUserBestScore returns a user's single best global score on a provided beatmap. Takes in mapMD5 and userID
+func (s Scores) GetBeatmapUserBestScore(mapMD5 string, userId int) (MapScore, error) {
 	var returnedScore MapScore
 	err := fetchData(fmt.Sprintf("%s%s%s/%d/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
 	if err != nil {
@@ -112,4 +112,14 @@ func (s Scores) GetUserBestScore(mapMD5 string, userId int) (MapScore, error) {
 
 type MapScore struct {
 	Score MapScores `json:"score"`
+}
+
+// GetUserBestAllScoreboards Returns the personal best (all scoreboard) score for a user on a given map
+func (s Scores) GetUserBestAllScoreboards(mapMD5 string, userId int) (MapScore, error) {
+	var returnedScore MapScore
+	err := fetchData(fmt.Sprintf("%s%s%s/%d/all", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
+	if err != nil {
+		return MapScore{}, err
+	}
+	return returnedScore, nil
 }
