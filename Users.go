@@ -56,7 +56,7 @@ type JsonUser struct {
 	Title           interface{}     `json:"title"`
 	TwitchUsername  interface{}     `json:"twitch_username"`
 	DonatorEndTime  time.Time       `json:"donator_end_time"`
-	DiscordId       interface{}     `json:"discord_id"`
+	DiscordId       string          `json:"discord_id"`
 	MiscInformation interface{}     `json:"misc_information"`
 	ClanId          interface{}     `json:"clan_id"`
 	ClanLeaveTime   time.Time       `json:"clan_leave_time"`
