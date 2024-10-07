@@ -67,10 +67,10 @@ func TestScores_GetBeatmapUserBestScoreMods(t *testing.T) {
 	t.Log(returnedScore)
 }
 
-// might not work, not sure.
+// might not work, not sure. todo figure out how rates work since i have no clue
 func TestScores_GetBeatmapUserBestScoreRate(t *testing.T) {
 	client := Init()
-	returnedScore, err := client.Scores.GetBeatmapUserBestScoreRate("0ec514e829ae12273cf166f65ad53d25", 371737, 0)
+	returnedScore, err := client.Scores.GetBeatmapUserBestScoreRate("0ec514e829ae12273cf166f65ad53d25", 371737, 8)
 	if err != nil {
 		t.Log(err)
 		t.FailNow()
