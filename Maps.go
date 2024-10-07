@@ -1,6 +1,9 @@
 package QuaverGo
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Maps struct {
 	APIClient         *Client
@@ -11,6 +14,7 @@ func initMaps(apiClient *Client) *Maps {
 	return &Maps{APIClient: apiClient, EndpointExtension: "/map/"}
 }
 
+// ByID Retrieves info about a given map
 func (m Maps) ByID(id int) (Map, error) {
 	var returnedMap MapJson
 	err := fetchData(fmt.Sprintf("%s%s%d", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMap)
@@ -55,4 +59,86 @@ type Map struct {
 	ModsIgnored          int     `json:"mods_ignored"`
 	OnlineOffset         int     `json:"online_offset"`
 	IsClanRanked         bool    `json:"is_clan_ranked"`
+}
+
+// GetMods Retrieves a list of mods on a given map.
+func (m Maps) GetMods(id int) (MapModsData, error) {
+	var returnedMapMods MapModsData
+	err := fetchData(fmt.Sprintf("%s%s%d/mods", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMapMods)
+	if err != nil {
+		return MapModsData{}, err
+	}
+	return returnedMapMods, nil
+}
+
+type MapModsData struct {
+	Mods []struct {
+		Id           int       `json:"id"`
+		MapId        int       `json:"map_id"`
+		AuthorId     int       `json:"author_id"`
+		Timestamp    time.Time `json:"timestamp"`
+		MapTimestamp *string   `json:"map_timestamp"`
+		Comment      string    `json:"comment"`
+		Status       string    `json:"status"`
+		Type         string    `json:"type"`
+		Author       struct {
+			Id              int         `json:"id"`
+			SteamId         string      `json:"steam_id"`
+			Username        string      `json:"username"`
+			TimeRegistered  time.Time   `json:"time_registered"`
+			Allowed         bool        `json:"allowed"`
+			Privileges      int         `json:"privileges"`
+			Usergroups      int         `json:"usergroups"`
+			MuteEndTime     time.Time   `json:"mute_end_time"`
+			LatestActivity  time.Time   `json:"latest_activity"`
+			Country         string      `json:"country"`
+			AvatarUrl       string      `json:"avatar_url"`
+			Twitter         *string     `json:"twitter"`
+			Title           string      `json:"title"`
+			TwitchUsername  *string     `json:"twitch_username"`
+			DonatorEndTime  time.Time   `json:"donator_end_time"`
+			DiscordId       *string     `json:"discord_id"`
+			MiscInformation interface{} `json:"misc_information"`
+			ClanId          *int        `json:"clan_id"`
+			ClanLeaveTime   time.Time   `json:"clan_leave_time"`
+			ClientStatus    interface{} `json:"client_status"`
+		} `json:"author"`
+		Replies []struct {
+			Id        int       `json:"id"`
+			MapModId  int       `json:"map_mod_id"`
+			AuthorId  int       `json:"author_id"`
+			Timestamp time.Time `json:"timestamp"`
+			Comments  string    `json:"comments"`
+			Spam      bool      `json:"spam"`
+			Author    struct {
+				Id              int       `json:"id"`
+				SteamId         string    `json:"steam_id"`
+				Username        string    `json:"username"`
+				TimeRegistered  time.Time `json:"time_registered"`
+				Allowed         bool      `json:"allowed"`
+				Privileges      int       `json:"privileges"`
+				Usergroups      int       `json:"usergroups"`
+				MuteEndTime     time.Time `json:"mute_end_time"`
+				LatestActivity  time.Time `json:"latest_activity"`
+				Country         string    `json:"country"`
+				AvatarUrl       string    `json:"avatar_url"`
+				Twitter         *string   `json:"twitter"`
+				Title           string    `json:"title"`
+				TwitchUsername  *string   `json:"twitch_username"`
+				DonatorEndTime  time.Time `json:"donator_end_time"`
+				DiscordId       *string   `json:"discord_id"`
+				MiscInformation *struct {
+					DefaultMode       int    `json:"default_mode,omitempty"`
+					Twitch            string `json:"twitch,omitempty"`
+					NotifActionMapset bool   `json:"notif_action_mapset,omitempty"`
+					Discord           string `json:"discord,omitempty"`
+					Twitter           string `json:"twitter,omitempty"`
+					Youtube           string `json:"youtube,omitempty"`
+				} `json:"misc_information"`
+				ClanId        *int        `json:"clan_id"`
+				ClanLeaveTime time.Time   `json:"clan_leave_time"`
+				ClientStatus  interface{} `json:"client_status"`
+			} `json:"author"`
+		} `json:"replies"`
+	} `json:"mods"`
 }
