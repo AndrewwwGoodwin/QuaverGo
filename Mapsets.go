@@ -23,7 +23,6 @@ func (m Mapsets) ByID(id int) (Mapset, error) {
 	return returnedMapset.Mapset, nil
 }
 
-// 35323
 type Mapset struct {
 	Id              int       `json:"id"`
 	PackageMd5      string    `json:"package_md5"`
@@ -43,4 +42,18 @@ type Mapset struct {
 
 type MapsetJson struct {
 	Mapset Mapset `json:"mapset"`
+}
+
+// RankedList returns an []int of all the ranked maps in quaver
+func (m Mapsets) RankedList() ([]int, error) {
+	var returnedMapset RankedList
+	err := fetchData(fmt.Sprintf("%s%sranked", m.APIClient.baseURL, m.EndpointExtension), &returnedMapset)
+	if err != nil {
+		return nil, err
+	}
+	return returnedMapset.RankedMapsets, nil
+}
+
+type RankedList struct {
+	RankedMapsets []int `json:"ranked_mapsets"`
 }

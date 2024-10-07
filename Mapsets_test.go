@@ -10,3 +10,12 @@ func TestMapsets_ByID(t *testing.T) {
 	}
 	t.Log(returnedMapset)
 }
+
+func TestMapsets_RankedList(t *testing.T) {
+	client := Init()
+	returnedMapset, err := client.Mapsets.RankedList()
+	if err != nil {
+		t.Errorf("Mapsets.RankedList() returned error: %v", err)
+	}
+	t.Log(returnedMapset)
+}
