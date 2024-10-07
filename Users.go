@@ -161,23 +161,6 @@ type MapsetJSON struct {
 	Mapsets []Mapset `json:"mapsets"`
 }
 
-type Mapset struct {
-	Id              int       `json:"id"`
-	PackageMd5      string    `json:"package_md5"`
-	CreatorId       int       `json:"creator_id"`
-	CreatorUsername string    `json:"creator_username"`
-	Artist          string    `json:"artist"`
-	Title           string    `json:"title"`
-	Source          string    `json:"source"`
-	Tags            string    `json:"tags"`
-	Description     string    `json:"description"`
-	DateSubmitted   time.Time `json:"date_submitted"`
-	DateLastUpdated time.Time `json:"date_last_updated"`
-	IsVisible       bool      `json:"is_visible"`
-	IsExplicit      bool      `json:"is_explicit"`
-	Maps            []Map     `json:"maps"`
-}
-
 func (u Users) Playlists(id int) (*[]Playlists, error) {
 	var returnedPlaylists PlaylistsJson
 	err := fetchData(fmt.Sprintf("%s%s%d/playlists", u.APIClient.baseURL, u.EndpointExtension, id), &returnedPlaylists)
