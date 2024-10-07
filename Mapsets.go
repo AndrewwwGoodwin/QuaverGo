@@ -76,3 +76,6 @@ type OffsetStruct struct {
 	ID     int `json:"id"`
 	Offset int `json:"offset"`
 }
+
+//todo mapset search
+// search uses url parameters, and I haven't built the fetchData function to handle that.
