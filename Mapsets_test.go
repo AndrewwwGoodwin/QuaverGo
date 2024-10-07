@@ -28,3 +28,14 @@ func TestMapsets_OffsetList(t *testing.T) {
 	}
 	t.Log(returnedOffsets)
 }
+
+func TestMapsets_Search(t *testing.T) {
+	client := Init()
+	search := MapsetSearchOptionsBuilder("dogs").SetMode(1)
+
+	searchResults, err := client.Mapsets.Search(search)
+	if err != nil {
+		t.Errorf("Mapsets.Search() returned error: %v", err)
+	}
+	t.Log(searchResults)
+}
