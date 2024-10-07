@@ -1,9 +1,7 @@
 package QuaverGo
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"time"
 )
 
@@ -17,18 +15,8 @@ func initUsers(apiClient *Client) *Users {
 }
 
 func (u Users) ID(id int) (*JsonUser, error) {
-
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d", u.APIClient.baseURL, u.EndpointExtension, id))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var UserData QuaverUser
-	err = json.Unmarshal(dataStream, &UserData)
+	err := fetchData(fmt.Sprintf("%s%s%d", u.APIClient.baseURL, u.EndpointExtension, id), &UserData)
 	if err != nil {
 		return nil, err
 	}
@@ -96,17 +84,8 @@ type QuaverUserStats struct {
 }
 
 func (u Users) Achievements(id int) (*[]Achievement, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/achievements", u.APIClient.baseURL, u.EndpointExtension, id))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var ReturnedAchievements AchievementJson
-	err = json.Unmarshal(dataStream, &ReturnedAchievements)
+	err := fetchData(fmt.Sprintf("%s%s%d/achievements", u.APIClient.baseURL, u.EndpointExtension, id), &ReturnedAchievements)
 	if err != nil {
 		return nil, err
 	}
@@ -128,17 +107,8 @@ type Achievement struct {
 }
 
 func (u Users) Activity(id int) (*[]Activity, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/activity", u.APIClient.baseURL, u.EndpointExtension, id))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var ReturnedActivities ActivityJSON
-	err = json.Unmarshal(dataStream, &ReturnedActivities)
+	err := fetchData(fmt.Sprintf("%s%s%d/activity", u.APIClient.baseURL, u.EndpointExtension, id), &ReturnedActivities)
 	if err != nil {
 		return nil, err
 	}
@@ -160,17 +130,8 @@ type Activity struct {
 }
 
 func (u Users) Badges(id int) (*[]Badge, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/badges", u.APIClient.baseURL, u.EndpointExtension, id))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedBadges BadgesJSON
-	err = json.Unmarshal(dataStream, &returnedBadges)
+	err := fetchData(fmt.Sprintf("%s%s%d/badges", u.APIClient.baseURL, u.EndpointExtension, id), &returnedBadges)
 	if err != nil {
 		return nil, err
 	}
@@ -188,17 +149,8 @@ type Badge struct {
 }
 
 func (u Users) Mapsets(id int) (*[]Mapset, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/mapsets", u.APIClient.baseURL, u.EndpointExtension, id))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedMapsets MapsetJSON
-	err = json.Unmarshal(dataStream, &returnedMapsets)
+	err := fetchData(fmt.Sprintf("%s%s%d/mapsets", u.APIClient.baseURL, u.EndpointExtension, id), &returnedMapsets)
 	if err != nil {
 		return nil, err
 	}
@@ -227,17 +179,8 @@ type Mapset struct {
 }
 
 func (u Users) Playlists(id int) (*[]Playlists, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/playlists", u.APIClient.baseURL, u.EndpointExtension, id))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedPlaylists PlaylistsJson
-	err = json.Unmarshal(dataStream, &returnedPlaylists)
+	err := fetchData(fmt.Sprintf("%s%s%d/playlists", u.APIClient.baseURL, u.EndpointExtension, id), &returnedPlaylists)
 	if err != nil {
 		return nil, err
 	}
@@ -259,17 +202,8 @@ type Playlists struct {
 
 // ScoresBest valid modes are 1 (4k) and 2 (7k)
 func (u Users) ScoresBest(id int, mode int) (*[]ScoresData, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/best", u.APIClient.baseURL, u.EndpointExtension, id, mode))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedScores ScoresJSON
-	err = json.Unmarshal(dataStream, &returnedScores)
+	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/best", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -277,17 +211,8 @@ func (u Users) ScoresBest(id int, mode int) (*[]ScoresData, error) {
 }
 
 func (u Users) ScoresRecent(id int, mode int) (*[]ScoresData, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/recent", u.APIClient.baseURL, u.EndpointExtension, id, mode))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedScores ScoresJSON
-	err = json.Unmarshal(dataStream, &returnedScores)
+	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/recent", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -295,17 +220,8 @@ func (u Users) ScoresRecent(id int, mode int) (*[]ScoresData, error) {
 }
 
 func (u Users) ScoresFirstPlace(id int, mode int) (*[]ScoresData, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/firstplace", u.APIClient.baseURL, u.EndpointExtension, id, mode))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedScores ScoresJSON
-	err = json.Unmarshal(dataStream, &returnedScores)
+	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/firstplace", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -315,17 +231,8 @@ func (u Users) ScoresFirstPlace(id int, mode int) (*[]ScoresData, error) {
 // ScoresByGrade valid grades are X, SS, S, A, B, C, D
 // valid modes are (1, 4k), or (2, 7k)
 func (u Users) ScoresByGrade(id int, mode int, grade string) (*[]ScoresData, error) {
-	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/grades/%s", u.APIClient.baseURL, u.EndpointExtension, id, mode, grade))
-	if err != nil {
-		return nil, err
-	}
-	defer responseData.Body.Close()
-	dataStream, err := io.ReadAll(responseData.Body)
-	if err != nil {
-		return nil, err
-	}
 	var returnedScores ScoresJSON
-	err = json.Unmarshal(dataStream, &returnedScores)
+	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/grades/%s", u.APIClient.baseURL, u.EndpointExtension, id, mode, grade), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
