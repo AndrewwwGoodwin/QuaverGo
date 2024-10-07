@@ -57,3 +57,22 @@ func (m Mapsets) RankedList() ([]int, error) {
 type RankedList struct {
 	RankedMapsets []int `json:"ranked_mapsets"`
 }
+
+// OffsetList returns a list of all mapsets that have online offsets.
+func (m Mapsets) OffsetList() ([]OffsetStruct, error) {
+	var returnedOffsets OffsetList
+	err := fetchData(fmt.Sprintf("%s%soffsets", m.APIClient.baseURL, m.EndpointExtension), &returnedOffsets)
+	if err != nil {
+		return nil, err
+	}
+	return returnedOffsets.OnlineOffsets, nil
+}
+
+type OffsetList struct {
+	OnlineOffsets []OffsetStruct `json:"online_offsets"`
+}
+
+type OffsetStruct struct {
+	ID     int `json:"id"`
+	Offset int `json:"offset"`
+}

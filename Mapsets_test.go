@@ -19,3 +19,12 @@ func TestMapsets_RankedList(t *testing.T) {
 	}
 	t.Log(returnedMapset)
 }
+
+func TestMapsets_OffsetList(t *testing.T) {
+	client := Init()
+	returnedOffsets, err := client.Mapsets.OffsetList()
+	if err != nil {
+		t.Errorf("Mapsets.OffsetList() returned error: %v", err)
+	}
+	t.Log(returnedOffsets)
+}
