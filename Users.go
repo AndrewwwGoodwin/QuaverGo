@@ -56,7 +56,7 @@ type JsonUser struct {
 	Title           interface{}     `json:"title"`
 	TwitchUsername  interface{}     `json:"twitch_username"`
 	DonatorEndTime  time.Time       `json:"donator_end_time"`
-	DiscordId       interface{}     `json:"discord_id"`
+	DiscordId       string          `json:"discord_id"`
 	MiscInformation interface{}     `json:"misc_information"`
 	ClanId          interface{}     `json:"clan_id"`
 	ClanLeaveTime   time.Time       `json:"clan_leave_time"`
@@ -291,7 +291,7 @@ type Playlists struct {
 }
 
 // ScoresBest valid modes are 1 (4k) and 2 (7k)
-func (u Users) ScoresBest(id int, mode int) (*[]Scores, error) {
+func (u Users) ScoresBest(id int, mode int) (*[]ScoresData, error) {
 	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/best", u.APIClient.baseURL, u.EndpointExtension, id, mode))
 	if err != nil {
 		return nil, err
@@ -309,7 +309,7 @@ func (u Users) ScoresBest(id int, mode int) (*[]Scores, error) {
 	return &returnedScores.Scores, nil
 }
 
-func (u Users) ScoresRecent(id int, mode int) (*[]Scores, error) {
+func (u Users) ScoresRecent(id int, mode int) (*[]ScoresData, error) {
 	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/recent", u.APIClient.baseURL, u.EndpointExtension, id, mode))
 	if err != nil {
 		return nil, err
@@ -327,7 +327,7 @@ func (u Users) ScoresRecent(id int, mode int) (*[]Scores, error) {
 	return &returnedScores.Scores, nil
 }
 
-func (u Users) ScoresFirstPlace(id int, mode int) (*[]Scores, error) {
+func (u Users) ScoresFirstPlace(id int, mode int) (*[]ScoresData, error) {
 	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/firstplace", u.APIClient.baseURL, u.EndpointExtension, id, mode))
 	if err != nil {
 		return nil, err
@@ -347,7 +347,7 @@ func (u Users) ScoresFirstPlace(id int, mode int) (*[]Scores, error) {
 
 // ScoresByGrade valid grades are X, SS, S, A, B, C, D
 // valid modes are (1, 4k), or (2, 7k)
-func (u Users) ScoresByGrade(id int, mode int, grade string) (*[]Scores, error) {
+func (u Users) ScoresByGrade(id int, mode int, grade string) (*[]ScoresData, error) {
 	responseData, err := u.APIClient.AttemptRequest(fmt.Sprintf("%s%s%d/scores/%d/grades/%s", u.APIClient.baseURL, u.EndpointExtension, id, mode, grade))
 	if err != nil {
 		return nil, err
@@ -366,9 +366,9 @@ func (u Users) ScoresByGrade(id int, mode int, grade string) (*[]Scores, error) 
 }
 
 type ScoresJSON struct {
-	Scores []Scores `json:"scores"`
+	Scores []ScoresData `json:"scores"`
 }
-type Scores struct {
+type ScoresData struct {
 	Id                int         `json:"id"`
 	UserId            int         `json:"user_id"`
 	MapMd5            string      `json:"map_md5"`
