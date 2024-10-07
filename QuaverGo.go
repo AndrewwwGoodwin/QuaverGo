@@ -19,15 +19,15 @@ type Client struct {
 		Clans        *Clans.Clans
 		Download     *Downloads.Downloads
 		Leaderboards *Leaderboards.Leaderboards
-		Mapsets      *Mapsets.Mapsets
 		Multiplayer  *Multiplayer.Multiplayer
 		Playlists    *Playlists.Playlists
 		RankingQueue *RankingQueue.RankingQueue
 		ServerStats  *ServerStats.ServerStats
 	*/
-	Maps   *Maps
-	Scores *Scores
-	Users  *Users
+	Mapsets *Mapsets
+	Maps    *Maps
+	Scores  *Scores
+	Users   *Users
 }
 
 func Init() *Client {
@@ -41,12 +41,12 @@ func Init() *Client {
 		initClient.Clans = Clans.Init(&initClient)
 		initClient.Download = Downloads.Init(&initClient)
 		initClient.Leaderboards = Leaderboards.Init(&initClient)
-		initClient.Mapsets = Mapsets.Init(&initClient)
 		initClient.Multiplayer = Multiplayer.Init(&initClient)
 		initClient.Playlists = Playlists.Init(&initClient)
 		initClient.RankingQueue = RankingQueue.Init(&initClient)
 		initClient.ServerStats = ServerStats.Init(&initClient)
 	*/
+	initClient.Mapsets = initMapsets(&initClient)
 	initClient.Maps = initMaps(&initClient)
 	initClient.Scores = initScores(&initClient)
 	initClient.Users = initUsers(&initClient)
