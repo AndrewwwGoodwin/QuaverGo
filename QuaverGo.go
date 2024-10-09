@@ -2,11 +2,9 @@ package QuaverGo
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/AndrewwwGoodwin/QuaverGo/RateLimitManager"
 	"io"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -52,27 +50,6 @@ func Init() *Client {
 	initClient.Users = initUsers(&initClient)
 
 	return &initClient
-}
-
-// AttemptRequest takes in a formatted string of an api endpoint, performs a GET request to the specified URL, and returns the response or error
-func (c Client) AttemptRequest(URL string) (*http.Response, error) {
-	// tell the rate limit handler that we want to make a new request
-	err := c.rateLimitManager.Request()
-	if err != nil {
-		// if rate limiter says no, we've exceeded our limit and the request fails
-		return nil, err
-	}
-	// otherwise, proceed and attempt to create the request
-	response, err := c.httpClient.Get(URL)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return nil, errors.New("received bad status code " + strconv.Itoa(response.StatusCode))
-	}
-
-	return response, nil
 }
 
 // fetchData takes in a target url, and the pointer to unMarshal into.
