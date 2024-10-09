@@ -18,7 +18,7 @@ func initMapsets(apiClient *Client) *Mapsets {
 
 func (m Mapsets) ByID(id int) (Mapset, error) {
 	var returnedMapset MapsetJson
-	err := fetchData(fmt.Sprintf("%s%s%d", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMapset)
+	err := m.APIClient.fetchData(fmt.Sprintf("%s%s%d", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMapset)
 	if err != nil {
 		return Mapset{}, err
 	}
@@ -53,7 +53,7 @@ type MapsetsJson struct {
 // RankedList returns an []int of all the ranked maps in quaver
 func (m Mapsets) RankedList() ([]int, error) {
 	var returnedMapset RankedList
-	err := fetchData(fmt.Sprintf("%s%sranked", m.APIClient.baseURL, m.EndpointExtension), &returnedMapset)
+	err := m.APIClient.fetchData(fmt.Sprintf("%s%sranked", m.APIClient.baseURL, m.EndpointExtension), &returnedMapset)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ type RankedList struct {
 // OffsetList returns a list of all mapsets that have online offsets.
 func (m Mapsets) OffsetList() ([]OffsetStruct, error) {
 	var returnedOffsets OffsetList
-	err := fetchData(fmt.Sprintf("%s%soffsets", m.APIClient.baseURL, m.EndpointExtension), &returnedOffsets)
+	err := m.APIClient.fetchData(fmt.Sprintf("%s%soffsets", m.APIClient.baseURL, m.EndpointExtension), &returnedOffsets)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func (m Mapsets) Search(options *MapsetSearchOptions) ([]Mapset, error) {
 	urlObj.RawQuery = q.Encode()
 	//fmt.Println(urlObj.String())
 	returnMapsetJson := MapsetsJson{}
-	err = fetchData(urlObj.String(), &returnMapsetJson)
+	err = m.APIClient.fetchData(urlObj.String(), &returnMapsetJson)
 	if err != nil {
 		return nil, err
 	}

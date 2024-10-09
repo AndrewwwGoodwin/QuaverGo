@@ -17,7 +17,7 @@ func initMaps(apiClient *Client) *Maps {
 // ByID Retrieves info about a given map
 func (m Maps) ByID(id int) (Map, error) {
 	var returnedMap MapJson
-	err := fetchData(fmt.Sprintf("%s%s%d", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMap)
+	err := m.APIClient.fetchData(fmt.Sprintf("%s%s%d", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMap)
 	if err != nil {
 		return Map{}, err
 	}
@@ -64,7 +64,7 @@ type Map struct {
 // GetMods Retrieves a list of mods on a given map.
 func (m Maps) GetMods(id int) (MapModsData, error) {
 	var returnedMapMods MapModsData
-	err := fetchData(fmt.Sprintf("%s%s%d/mods", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMapMods)
+	err := m.APIClient.fetchData(fmt.Sprintf("%s%s%d/mods", m.APIClient.baseURL, m.EndpointExtension, id), &returnedMapMods)
 	if err != nil {
 		return MapModsData{}, err
 	}

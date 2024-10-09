@@ -17,7 +17,7 @@ func initScores(apiClient *Client) *Scores {
 // GetMapLeaderboard gets the top 50 scores global leaderboard scores from a map's given md5 id
 func (s Scores) GetMapLeaderboard(mapMD5 string) ([]MapScores, error) {
 	var returnedScores MapScoreJson
-	err := fetchData(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5), &returnedScores)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ type UserCompact struct {
 // GetMapModLeaderboard takes in a map MD5 and a mod id, and returns the leaderboard for the given mod.
 func (s Scores) GetMapModLeaderboard(mapMD5 string, mods int) ([]MapScores, error) {
 	var returnedScores MapScoreJson
-	err := fetchData(fmt.Sprintf("%s%s%s/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, mods), &returnedScores)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, mods), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func (s Scores) GetMapModLeaderboard(mapMD5 string, mods int) ([]MapScores, erro
 // GetMapRateLeaderboard takes in a mapMD5 and a rate mod id, and returns the leaderboard for the given rate.
 func (s Scores) GetMapRateLeaderboard(mapMD5 string, mods int) ([]MapScores, error) {
 	var returnedScores MapScoreJson
-	err := fetchData(fmt.Sprintf("%s%s%s/rate/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, mods), &returnedScores)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/rate/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, mods), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (s Scores) GetMapRateLeaderboard(mapMD5 string, mods int) ([]MapScores, err
 // GetBeatmapUserBestScore returns a user's single best global score on a provided beatmap. Takes in mapMD5 and userID
 func (s Scores) GetBeatmapUserBestScore(mapMD5 string, userId int) (MapScore, error) {
 	var returnedScore MapScore
-	err := fetchData(fmt.Sprintf("%s%s%s/%d/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/%d/global", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
 	if err != nil {
 		return MapScore{}, err
 	}
@@ -117,7 +117,7 @@ type MapScore struct {
 // GetUserBestAllScoreboards Returns the personal best (all scoreboard) score for a user on a given map
 func (s Scores) GetUserBestAllScoreboards(mapMD5 string, userId int) (MapScore, error) {
 	var returnedScore MapScore
-	err := fetchData(fmt.Sprintf("%s%s%s/%d/all", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/%d/all", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId), &returnedScore)
 	if err != nil {
 		return MapScore{}, err
 	}
@@ -127,7 +127,7 @@ func (s Scores) GetUserBestAllScoreboards(mapMD5 string, userId int) (MapScore, 
 // GetBeatmapUserBestScoreMods Returns a user’s personal best score on a map with given mods. TODO test if functional
 func (s Scores) GetBeatmapUserBestScoreMods(mapMD5 string, userId int, mods int) (MapScore, error) {
 	var returnedScore MapScore
-	err := fetchData(fmt.Sprintf("%s%s%s/%d/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/%d/mods/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
 	if err != nil {
 		return MapScore{}, err
 	}
@@ -137,7 +137,7 @@ func (s Scores) GetBeatmapUserBestScoreMods(mapMD5 string, userId int, mods int)
 // GetBeatmapUserBestScoreRate Returns a user’s personal best score on a map with given rate modifiers. TODO test if functional
 func (s Scores) GetBeatmapUserBestScoreRate(mapMD5 string, userId int, mods int) (MapScore, error) {
 	var returnedScore MapScore
-	err := fetchData(fmt.Sprintf("%s%s%s/%d/rate/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%s%s/%d/rate/%d", s.APIClient.baseURL, s.EndpointExtension, mapMD5, userId, mods), &returnedScore)
 	if err != nil {
 		return MapScore{}, err
 	}

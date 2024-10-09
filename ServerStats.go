@@ -13,7 +13,7 @@ func initServerStats(apiClient *Client) *ServerStats {
 
 func (s *ServerStats) GetServerStats() (ServerStatsData, error) {
 	var returnData ServerStatsData
-	err := fetchData(fmt.Sprintf("%s%sstats", s.APIClient.baseURL, s.EndpointExtension), &returnData)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%sstats", s.APIClient.baseURL, s.EndpointExtension), &returnData)
 	if err != nil {
 		return ServerStatsData{}, err
 	}
@@ -30,7 +30,7 @@ type ServerStatsData struct {
 // GetServerStatsByCountries not the hugest fan of how this is implemented. maybe some day ill fix it
 func (s *ServerStats) GetServerStatsByCountries() (CountryStats, error) {
 	var returnData serverStatsCountries
-	err := fetchData(fmt.Sprintf("%s%sstats/country", s.APIClient.baseURL, s.EndpointExtension), &returnData)
+	err := s.APIClient.fetchData(fmt.Sprintf("%s%sstats/country", s.APIClient.baseURL, s.EndpointExtension), &returnData)
 	if err != nil {
 		return CountryStats{}, err
 	}

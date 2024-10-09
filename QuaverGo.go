@@ -77,15 +77,25 @@ func (c Client) AttemptRequest(URL string) (*http.Response, error) {
 
 // fetchData takes in a target url, and the pointer to unMarshal into.
 // only returns an error, as the data is unmarshalled into the pointer
-func fetchData(endpoint string, target interface{}) error {
+func (c Client) fetchData(endpoint string, target interface{}) error {
+	// see if the RateLimitManager lets us create a request
+	err := c.rateLimitManager.Request()
+	if err != nil {
+		return err
+	}
+
+	// if we are allowed to make the request, send a GET to the provided endpoint
 	response, err := http.Get(endpoint)
+
 	if err != nil {
 		return err
 	}
 	defer response.Body.Close()
+	// read the response information
 	data, err := io.ReadAll(response.Body)
 	if err != nil {
 		return err
 	}
+	// and finally unmarshal into the provided target interface
 	return json.Unmarshal(data, target)
 }
