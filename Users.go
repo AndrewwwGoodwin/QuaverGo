@@ -16,7 +16,7 @@ func initUsers(apiClient *Client) *Users {
 
 func (u Users) ID(id int) (*JsonUser, error) {
 	var UserData QuaverUser
-	err := fetchData(fmt.Sprintf("%s%s%d", u.APIClient.baseURL, u.EndpointExtension, id), &UserData)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d", u.APIClient.baseURL, u.EndpointExtension, id), &UserData)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ type QuaverUserStats struct {
 
 func (u Users) Achievements(id int) (*[]Achievement, error) {
 	var ReturnedAchievements AchievementJson
-	err := fetchData(fmt.Sprintf("%s%s%d/achievements", u.APIClient.baseURL, u.EndpointExtension, id), &ReturnedAchievements)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/achievements", u.APIClient.baseURL, u.EndpointExtension, id), &ReturnedAchievements)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ type Achievement struct {
 
 func (u Users) Activity(id int) (*[]Activity, error) {
 	var ReturnedActivities ActivityJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/activity", u.APIClient.baseURL, u.EndpointExtension, id), &ReturnedActivities)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/activity", u.APIClient.baseURL, u.EndpointExtension, id), &ReturnedActivities)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +131,7 @@ type Activity struct {
 
 func (u Users) Badges(id int) (*[]Badge, error) {
 	var returnedBadges BadgesJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/badges", u.APIClient.baseURL, u.EndpointExtension, id), &returnedBadges)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/badges", u.APIClient.baseURL, u.EndpointExtension, id), &returnedBadges)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ type Badge struct {
 
 func (u Users) Mapsets(id int) (*[]Mapset, error) {
 	var returnedMapsets MapsetJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/mapsets", u.APIClient.baseURL, u.EndpointExtension, id), &returnedMapsets)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/mapsets", u.APIClient.baseURL, u.EndpointExtension, id), &returnedMapsets)
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ type MapsetJSON struct {
 
 func (u Users) Playlists(id int) (*[]Playlists, error) {
 	var returnedPlaylists PlaylistsJson
-	err := fetchData(fmt.Sprintf("%s%s%d/playlists", u.APIClient.baseURL, u.EndpointExtension, id), &returnedPlaylists)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/playlists", u.APIClient.baseURL, u.EndpointExtension, id), &returnedPlaylists)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ type Playlists struct {
 // ScoresBest valid modes are 1 (4k) and 2 (7k)
 func (u Users) ScoresBest(id int, mode int) (*[]ScoresData, error) {
 	var returnedScores ScoresJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/best", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/scores/%d/best", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -195,7 +195,7 @@ func (u Users) ScoresBest(id int, mode int) (*[]ScoresData, error) {
 
 func (u Users) ScoresRecent(id int, mode int) (*[]ScoresData, error) {
 	var returnedScores ScoresJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/recent", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/scores/%d/recent", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +204,7 @@ func (u Users) ScoresRecent(id int, mode int) (*[]ScoresData, error) {
 
 func (u Users) ScoresFirstPlace(id int, mode int) (*[]ScoresData, error) {
 	var returnedScores ScoresJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/firstplace", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/scores/%d/firstplace", u.APIClient.baseURL, u.EndpointExtension, id, mode), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
@@ -215,7 +215,7 @@ func (u Users) ScoresFirstPlace(id int, mode int) (*[]ScoresData, error) {
 // valid modes are (1, 4k), or (2, 7k)
 func (u Users) ScoresByGrade(id int, mode int, grade string) (*[]ScoresData, error) {
 	var returnedScores ScoresJSON
-	err := fetchData(fmt.Sprintf("%s%s%d/scores/%d/grades/%s", u.APIClient.baseURL, u.EndpointExtension, id, mode, grade), &returnedScores)
+	err := u.APIClient.fetchData(fmt.Sprintf("%s%s%d/scores/%d/grades/%s", u.APIClient.baseURL, u.EndpointExtension, id, mode, grade), &returnedScores)
 	if err != nil {
 		return nil, err
 	}
