@@ -22,12 +22,12 @@ type Client struct {
 		Multiplayer  *Multiplayer.Multiplayer
 		Playlists    *Playlists.Playlists
 		RankingQueue *RankingQueue.RankingQueue
-		ServerStats  *ServerStats.ServerStats
 	*/
-	Mapsets *Mapsets
-	Maps    *Maps
-	Scores  *Scores
-	Users   *Users
+	ServerStats *ServerStats
+	Mapsets     *Mapsets
+	Maps        *Maps
+	Scores      *Scores
+	Users       *Users
 }
 
 func Init() *Client {
@@ -44,8 +44,8 @@ func Init() *Client {
 		initClient.Multiplayer = Multiplayer.Init(&initClient)
 		initClient.Playlists = Playlists.Init(&initClient)
 		initClient.RankingQueue = RankingQueue.Init(&initClient)
-		initClient.ServerStats = ServerStats.Init(&initClient)
 	*/
+	initClient.ServerStats = initServerStats(&initClient)
 	initClient.Mapsets = initMapsets(&initClient)
 	initClient.Maps = initMaps(&initClient)
 	initClient.Scores = initScores(&initClient)
