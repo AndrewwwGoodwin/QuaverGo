@@ -10,3 +10,12 @@ func TestServerStats_GetServerStats(t *testing.T) {
 	}
 	t.Log(stats)
 }
+
+func TestServerStats_GetServerStatsByCountries(t *testing.T) {
+	client := Init()
+	stats, err := client.ServerStats.GetServerStatsByCountries()
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(stats)
+}
