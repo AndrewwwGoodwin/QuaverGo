@@ -15,12 +15,12 @@ type Client struct {
 	//endpoint subdivision
 	/*
 		Clans        *Clans.Clans
-		Download     *Downloads.Downloads
 		Leaderboards *Leaderboards.Leaderboards
 		Multiplayer  *Multiplayer.Multiplayer
 		Playlists    *Playlists.Playlists
 		RankingQueue *RankingQueue.RankingQueue
 	*/
+	Download    *Download
 	ServerStats *ServerStats
 	Mapsets     *Mapsets
 	Maps        *Maps
@@ -37,12 +37,12 @@ func Init() *Client {
 	initClient.baseURL = "https://api.quavergame.com/v2"
 	/*
 		initClient.Clans = Clans.Init(&initClient)
-		initClient.Download = Downloads.Init(&initClient)
 		initClient.Leaderboards = Leaderboards.Init(&initClient)
 		initClient.Multiplayer = Multiplayer.Init(&initClient)
 		initClient.Playlists = Playlists.Init(&initClient)
 		initClient.RankingQueue = RankingQueue.Init(&initClient)
 	*/
+	initClient.Download = initDownload(&initClient)
 	initClient.ServerStats = initServerStats(&initClient)
 	initClient.Mapsets = initMapsets(&initClient)
 	initClient.Maps = initMaps(&initClient)
